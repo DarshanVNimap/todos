@@ -1,6 +1,6 @@
 package com.todoApp.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,33 +18,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Employee {
+public class Task {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	private String name;
-	private String email;
-	private String password;
+	private String title;
+	private String description;
+	private LocalDate startAt;
+	private LocalDate endAt;
 	
-	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
-	private Role role;
+	private Employee createdBy;
 	
-	@OneToMany(cascade = CascadeType.MERGE , mappedBy = "createdBy")
+	@OneToMany(mappedBy = "task" , cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<Task> createdTasks;
-	
-	@OneToMany(mappedBy = "employee" , cascade = CascadeType.MERGE)
-	@JsonManagedReference
-	private List<EmployeeTaskMapper> assignedTo;
-	
-	private Date registerAt;
+	private List<EmployeeTaskMapper> assignTo;
 
 }

@@ -47,8 +47,6 @@ public class CustomeUserDetail implements UserDetails {
 
 		for (RolePermissionMapper map : mapperRepo.findByRole(role)) {
 			authorities1.add(new SimpleGrantedAuthority(map.getPermission().getAction()));
-
-			System.out.println(map.getPermission().getAction());
 		}
 		
 		return authorities1;
@@ -91,3 +89,4 @@ public class CustomeUserDetail implements UserDetails {
 	}
 
 }
+
