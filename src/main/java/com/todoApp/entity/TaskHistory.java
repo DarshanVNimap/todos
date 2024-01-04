@@ -1,17 +1,18 @@
 package com.todoApp.entity;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,20 +22,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Role {
+@Builder
+public class TaskHistory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	private String role;
 	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private EmployeeTaskMapper taskMapper;
 	
-	@OneToMany(cascade =CascadeType.ALL , fetch = FetchType.EAGER , mappedBy = "role")
-	@JsonManagedReference
-	private List<Employee> employee;
+	private Integer updatedBy;
+	private TaskStatus status;
 	
-	@OneToMany(cascade = CascadeType.ALL , mappedBy = "role")
-	@JsonManagedReference
-	private List<RolePermissionMapper> rolePermissionMapper;
+	@CreationTimestamp
+	private Date updatedAt;
+	
+	private LocalDateTime assignAt;
 
 }

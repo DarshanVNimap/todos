@@ -15,5 +15,7 @@ public interface EmployeeTaskMapperRepository extends JpaRepository<EmployeeTask
 	public List<EmployeeTaskMapper> findByTask(Task task);
 	
 	public void deleteByEmployeeAndTask(Employee emp , Task task);
+	
+	public EmployeeTaskMapper findByEmployeeAndTask(Employee emp , Task task);
 
 }

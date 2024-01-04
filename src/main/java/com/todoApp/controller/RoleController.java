@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.todoApp.entity.Role;
 import com.todoApp.service.RoleService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/api/role")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@SecurityRequirement(name = "jwt")
+@PreAuthorize("hasRole('ADMIN')")
 public class RoleController {
 	
 	

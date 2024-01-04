@@ -11,6 +11,9 @@ import com.todoApp.entity.RolePermissionMapper;
 public interface RolePermissionMapperRepository extends JpaRepository<RolePermissionMapper, Integer> {
 
 	public RolePermissionMapper findByRoleAndPermission(Role role , Permission permission);
+	
+	public void deleteByRoleAndPermission(Role role , Permission permission);
+	
 	public List<RolePermissionMapper> findByRole(Role role);
 	
 }

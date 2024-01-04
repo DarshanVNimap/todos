@@ -34,7 +34,7 @@ public class Employee {
 	private String email;
 	private String password;
 	
-	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
 	@JsonBackReference
 	private Role role;
 	

@@ -44,10 +44,13 @@ public class CustomeUserDetail implements UserDetails {
 		Set<SimpleGrantedAuthority> authorities1 = new HashSet<>();
 		
 		Role role = employee.getRole();
-
+		
+		authorities1.add(new SimpleGrantedAuthority("ROLE_"+role.getRole()));
+		
 		for (RolePermissionMapper map : mapperRepo.findByRole(role)) {
 			authorities1.add(new SimpleGrantedAuthority(map.getPermission().getAction()));
 		}
+
 		
 		return authorities1;
 	}

@@ -2,6 +2,8 @@ package com.todoApp.dto;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.tuple.GenerationTiming;
 import org.springframework.http.HttpStatus;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class ResponseDto
 	
 	private String message;
 	private HttpStatus status;
+//	@CurrentTimestamp(timing = GenerationTiming.ALWAYS)
 	private Date time;
 
 }
