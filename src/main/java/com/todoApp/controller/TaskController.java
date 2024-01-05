@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.todoApp.dto.TaskDto;
 import com.todoApp.dto.ResponseDto;
+import com.todoApp.dto.TaskDto;
 import com.todoApp.service.TaskService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/task")
@@ -47,7 +48,7 @@ public class TaskController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> addTask(@RequestBody TaskDto taskdto , Principal principal) {
+	public ResponseEntity<?> addTask(@RequestBody @Valid TaskDto taskdto , Principal principal) {
 		
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(taskService.addTask(taskdto, principal));

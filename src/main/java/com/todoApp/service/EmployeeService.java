@@ -14,6 +14,7 @@ public interface EmployeeService {
 	
 	public ResponseDto removeEmployee(Integer employee);
 	
-	public ResponseDto updateEmployee(Integer id , Employee employee);
+//	public ResponseDto updateEmployeeDetail(EmployeeDto employeeDto , Principal principal) throws Exception;
+	
 
 }

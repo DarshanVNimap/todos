@@ -17,6 +17,7 @@ import com.todoApp.dto.LoginDto;
 import com.todoApp.dto.TokenResponse;
 import com.todoApp.entity.Employee;
 import com.todoApp.entity.Role;
+import com.todoApp.exceptions.EmailAlreadyExistException;
 import com.todoApp.jwtUtils.JwtAuthService;
 import com.todoApp.repository.EmployeeRepository;
 import com.todoApp.repository.RoleRepository;
@@ -48,6 +49,10 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public TokenResponse register(EmployeeDto employeeDto) throws Exception {
 		
 		Role role = roleRepo.findById(2).orElseThrow(() -> new Exception("Role does not exist!!"));
+		
+		if(empRepo.existsByEmail(employeeDto.getEmail())) {
+			throw new EmailAlreadyExistException("Email already Exists");
+		}
 		
 		Employee e = modelMapper.map(employeeDto, Employee.class);
 		e.setPassword(passwordEncoder.encode(employeeDto.getPassword()));

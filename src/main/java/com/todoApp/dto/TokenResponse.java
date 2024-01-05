@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 public class TokenResponse {
 	
 	private String jwtToken;
-	private String refreshToken;
-	private Integer userId;
 	private String userName;
 	private String msg;
 

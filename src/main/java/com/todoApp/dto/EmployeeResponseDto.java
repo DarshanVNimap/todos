@@ -3,9 +3,6 @@ package com.todoApp.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.todoApp.entity.EmployeeTaskMapper;
-import com.todoApp.entity.Task;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,8 @@ public class EmployeeResponseDto {
 	
 	private String name;
 	private String email;
-	private List<Task> createdTasks;
+	private List<TaskDto> createdTasks;
+	private List<EmployeeTaskMapperResponseDto> assignedTo;
 	private Date registerAt;
 	
 }

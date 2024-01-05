@@ -2,8 +2,6 @@ package com.todoApp.dto;
 
 import java.util.Date;
 
-import org.hibernate.annotations.CurrentTimestamp;
-import org.hibernate.tuple.GenerationTiming;
 import org.springframework.http.HttpStatus;
 
 import lombok.AllArgsConstructor;

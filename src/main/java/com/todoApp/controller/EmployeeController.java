@@ -33,6 +33,12 @@ public class EmployeeController {
 		return ResponseEntity.ok(empService.removeEmployee(empId));
 	}
 	
+//	@PutMapping
+//	public ResponseEntity<?> updateEmployeeDetail(@RequestBody EmployeeDto employeeDto , Principal principal) throws Exception{
+//		return ResponseEntity.ok(empService.updateEmployeeDetail(employeeDto, principal));
+//	}
+	
+	
 	
 	
 }

@@ -48,7 +48,7 @@ public class EmployeeTaskMapperController {
 	}
 	
 	@PutMapping("/statusupdate/{taskId}")
-	public ResponseEntity<?> updateTaskStatus(@PathVariable(name = "taskId") Integer taskId , Principal principal){
+	public ResponseEntity<?> updateTaskStatus(@PathVariable(name = "taskId") Integer taskId , Principal principal) throws Exception{
 		
 		return ResponseEntity.status(HttpStatus.OK).body(empTaskService.updateTaskStatus(taskId, principal));
 	}

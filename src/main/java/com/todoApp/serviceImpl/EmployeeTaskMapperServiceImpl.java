@@ -1,6 +1,7 @@
 package com.todoApp.serviceImpl;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -67,10 +68,11 @@ public class EmployeeTaskMapperServiceImpl implements EmployeeTaskMapperService 
 
 			Employee e = empRepo.findById(i).orElseThrow(() -> new Exception("Employee not exist!! with id: " + i));
 
-			EmployeeTaskMapper emapper =  empTRepo.save(EmployeeTaskMapper.builder().employee(e).task(task).status(TaskStatus.TO_DO).build());
+			EmployeeTaskMapper emapper = empTRepo
+					.save(EmployeeTaskMapper.builder().employee(e).task(task).status(TaskStatus.TO_DO).build());
 
-			taskHistoryRepo
-					.save(TaskHistory.builder().status(TaskStatus.TO_DO).updatedBy(e.getId()).taskMapper(emapper).assignAt(emapper.getAssignAt()).build());
+			taskHistoryRepo.save(TaskHistory.builder().status(TaskStatus.TO_DO).updatedBy(e.getId()).taskMapper(emapper)
+					.assignAt(emapper.getAssignAt()).build());
 		}
 		return ResponseDto.builder().message("Task has been assigned!!").status(HttpStatus.OK).time(new Date()).build();
 	}
@@ -88,22 +90,29 @@ public class EmployeeTaskMapperServiceImpl implements EmployeeTaskMapperService 
 	}
 
 	@Override
-	public ResponseDto updateTaskStatus(Integer taskId, Principal principal) {
+	public ResponseDto updateTaskStatus(Integer taskId, Principal principal) throws Exception {
 
 		Employee employee = appService.getEmployee(principal);
 		Task task = taskRepo.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not assigned!!"));
-		EmployeeTaskMapper assignedTask = empTRepo.findByEmployeeAndTask(employee, task);
-
-		TaskStatus status = null;
+		EmployeeTaskMapper assignedTask = empTRepo.findByEmployeeAndTask(employee, task)
+				.orElseThrow(() -> new Exception("This task is not assign you!!"));
 
 		if (assignedTask.getStatus() == TaskStatus.DONE) {
 			return ResponseDto.builder().message("task already completed!!").status(HttpStatus.OK).time(new Date())
 					.build();
 
-		} else if (assignedTask.getStatus() == TaskStatus.TO_DO) {
-			status = TaskStatus.IN_PROGRESS;
-		} else if (assignedTask.getStatus() == TaskStatus.IN_PROGRESS) {
-			status = TaskStatus.DONE;
+		}
+
+		TaskStatus status = null;
+
+		if (task.getEndAt().isAfter(LocalDate.now())) {
+			if (assignedTask.getStatus() == TaskStatus.TO_DO) {
+				status = TaskStatus.IN_PROGRESS;
+			} else if (assignedTask.getStatus() == TaskStatus.IN_PROGRESS) {
+				status = TaskStatus.DONE;
+			}
+		} else {
+			return ResponseDto.builder().message("task time exceeds!!").status(HttpStatus.OK).time(new Date()).build();
 		}
 
 		assignedTask.setStatus(status);
@@ -112,8 +121,8 @@ public class EmployeeTaskMapperServiceImpl implements EmployeeTaskMapperService 
 
 		if (emapper != null) {
 
-			taskHistoryRepo
-					.save(TaskHistory.builder().status(status).updatedBy(employee.getId()).taskMapper(emapper).assignAt(emapper.getAssignAt()).build());
+			taskHistoryRepo.save(TaskHistory.builder().status(status).updatedBy(employee.getId()).taskMapper(emapper)
+					.assignAt(emapper.getAssignAt()).build());
 
 		}
 

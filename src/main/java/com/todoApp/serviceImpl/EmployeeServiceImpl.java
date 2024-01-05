@@ -23,16 +23,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private ModelMapper mapper;
+	
+//	@Autowired
+//	private AppService appService;
+//	
+//	@Autowired
+//	private BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	public List<EmployeeResponseDto> getAllEmployee() {
+		
+		
 		
 		return empRepo.findAll().stream().map( e -> mapper.map(e, EmployeeResponseDto.class)).toList();
 	}
 
 	@Override
 	public ResponseDto addEmployee(Employee employee) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -50,11 +57,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 						  .build();
 	}
 
-	@Override
-	public ResponseDto updateEmployee(Integer id, Employee employee) {
-		
-		
-		return null;
-	}
+//	@Override
+//	public ResponseDto updateEmployeeDetail(EmployeeDto employeeDto, Principal principal) throws Exception {
+//			Employee e = appService.getEmployee(principal);
+//			
+//			Employee employee = mapper.map(employeeDto, Employee.class);
+//			
+//			employee.setId(e.getId());
+//			employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
+//			employee.setRegisterAt(e.getRegisterAt());
+//			employee.setRole(e.getRole());
+//			
+//			if(empRepo.save(employee) == null) {
+//				throw new Exception("Something went wrong!!  try after sometime");
+//			}
+//			
+//			return ResponseDto.builder()
+//			          .message("Detail updated!!")
+//			          .status(HttpStatus.OK)
+//			          .time(new Date())
+//					  .build();
+//			
+//	}
+
+
+	
 
 }

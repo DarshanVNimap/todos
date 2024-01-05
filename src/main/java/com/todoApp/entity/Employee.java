@@ -19,33 +19,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Employee {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String name;
-	private String email;
-	private String password;
 	
-	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+	private String email;
+	
+	private String password;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonBackReference
 	private Role role;
-	
-	@OneToMany(cascade = CascadeType.MERGE , mappedBy = "createdBy")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy")
 	@JsonManagedReference
 	private List<Task> createdTasks;
-	
-	@OneToMany(mappedBy = "employee" , cascade = CascadeType.MERGE)
+
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeeTaskMapper> assignedTo;
-	
+
 	private Date registerAt;
 
 }

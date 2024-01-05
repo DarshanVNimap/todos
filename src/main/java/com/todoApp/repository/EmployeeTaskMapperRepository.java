@@ -1,6 +1,7 @@
 package com.todoApp.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,6 +17,6 @@ public interface EmployeeTaskMapperRepository extends JpaRepository<EmployeeTask
 	
 	public void deleteByEmployeeAndTask(Employee emp , Task task);
 	
-	public EmployeeTaskMapper findByEmployeeAndTask(Employee emp , Task task);
+	public Optional<EmployeeTaskMapper> findByEmployeeAndTask(Employee emp , Task task);
 
 }

@@ -1,6 +1,7 @@
 package com.todoApp.serviceImpl;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -9,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.todoApp.dto.TaskDto;
 import com.todoApp.dto.ResponseDto;
+import com.todoApp.dto.TaskDto;
+import com.todoApp.dto.TaskResponseDto;
 import com.todoApp.entity.Employee;
 import com.todoApp.entity.Task;
 import com.todoApp.exceptions.TaskNotFoundException;
-import com.todoApp.repository.EmployeeRepository;
 import com.todoApp.repository.TaskRepository;
 import com.todoApp.service.AppService;
 import com.todoApp.service.TaskService;
@@ -33,20 +34,25 @@ public class TaskServiceImpl implements TaskService {
 
 
 	@Override
-	public List<Task> getAllTask(Principal principal) throws Exception {
+	public List<TaskResponseDto> getAllTask(Principal principal) throws Exception {
 		Employee employee = appService.getEmployee(principal);
 
-		List<Task> tasks = taskRepo.findByCreatedBy(employee).get();
-				
-		if(tasks.isEmpty()) {
-			throw new TaskNotFoundException("You have not created any task!!");
-		}
+		List<Task> tasks = taskRepo.findByCreatedBy(employee).orElseThrow(() -> new TaskNotFoundException("You have not created any task!!"));
 
-		return tasks;
+
+		return tasks.stream().map(t -> mapper.map(t, TaskResponseDto.class)).toList();
 	}
 
 	@Override
 	public ResponseDto addTask(TaskDto taskdto, Principal principal) throws Exception {
+		
+		if(!taskdto.getStartAt().isBefore(taskdto.getEndAt())) {
+			throw new Exception("Start date should be before end date");
+		}
+		else if(!taskdto.getStartAt().isAfter(LocalDate.now())) {
+			throw new Exception("Start date should be after today's date");
+		}
+		
 		Employee employee = appService.getEmployee(principal);
 
 		Task task = mapper.map(taskdto, Task.class);

@@ -17,7 +17,7 @@ public interface EmployeeTaskMapperService {
 	
 	public ResponseDto withdrawlTask(TaskAssignDto assignDto, Principal principal) throws Exception ;
 	
-	public ResponseDto updateTaskStatus(Integer taskId ,Principal principal);
+	public ResponseDto updateTaskStatus(Integer taskId ,Principal principal) throws Exception;
 	
 //	public ResponseDto update(List<Integer> empId , Integer taskId ,Principal principal) throws Exception;
 //	public TaskResponseDto removeEmployeeFromTask(List<Integer> empId , List<>)
