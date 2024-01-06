@@ -1,6 +1,9 @@
 package com.todoApp.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,9 +25,14 @@ public class EmployeeController {
 	private EmployeeService empService;
 
 	@GetMapping()
-	@PreAuthorize("hasAuthority('EMPLOYEE::READALL')")
-	public ResponseEntity<?> getAllEmployee(){
-		return ResponseEntity.ok(empService.getAllEmployee());
+	public ResponseEntity<?> getAllEmployee(Principal principal){
+		return ResponseEntity.ok(empService.getAllEmployee(principal));
+	}
+	
+	@GetMapping("/{empId}")
+	@PreAuthorize("hasAuthority('EMPLOYEE::READBYID')")
+	public ResponseEntity<?> getEmployeeById(@PathVariable(name = "empId") Integer empId){
+		return ResponseEntity.status(HttpStatus.OK).body(empService.getEmployeeById(empId));
 	}
 	
 	@DeleteMapping("/{id}")
@@ -33,10 +41,8 @@ public class EmployeeController {
 		return ResponseEntity.ok(empService.removeEmployee(empId));
 	}
 	
-//	@PutMapping
-//	public ResponseEntity<?> updateEmployeeDetail(@RequestBody EmployeeDto employeeDto , Principal principal) throws Exception{
-//		return ResponseEntity.ok(empService.updateEmployeeDetail(employeeDto, principal));
-//	}
+	
+	
 	
 	
 	

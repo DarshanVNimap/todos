@@ -11,6 +11,8 @@ public interface TaskService {
 	
 	public List<TaskResponseDto> getAllTask(Principal principal) throws Exception;
 	
+	public TaskResponseDto getTaskById(Principal principal , Integer taskId) throws Exception; 
+	
 	public ResponseDto addTask(TaskDto task , Principal principal) throws Exception ;
 	
 	public ResponseDto updateTask(Integer id , TaskDto task , Principal principal) throws Exception ;

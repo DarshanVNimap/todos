@@ -47,6 +47,11 @@ public class TaskController {
 		}
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getTaskById(@PathVariable Integer id , Principal principal) throws Exception{
+		return ResponseEntity.status(HttpStatus.OK).body(taskService.getTaskById(principal, id));
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> addTask(@RequestBody @Valid TaskDto taskdto , Principal principal) {
 		

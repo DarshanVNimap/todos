@@ -1,6 +1,9 @@
 package com.todoApp.dto;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.todoApp.entity.EmployeeTaskMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +22,7 @@ public class TaskResponseDto {
 	
 	private LocalDate endAt;
 	
-//	private List<> assignedTo;
+	private List<TaskAssignResponseDto> assignTo;
 	
 
 }

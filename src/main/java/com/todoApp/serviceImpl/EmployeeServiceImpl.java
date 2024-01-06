@@ -1,5 +1,7 @@
 package com.todoApp.serviceImpl;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,11 +33,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 //	private BCryptPasswordEncoder passwordEncoder;
 
 	@Override
-	public List<EmployeeResponseDto> getAllEmployee() {
+	public List<EmployeeResponseDto> getAllEmployee(Principal principal) {
+		
+		List<EmployeeResponseDto> employee = new ArrayList<>();
+		
+		Employee e = empRepo.findByEmail(principal.getName()).get();
+		
+		if(e.getRole().getRole().equals("ADMIN")) {
+			employee =  empRepo.findAll().stream().map( em -> mapper.map(em, EmployeeResponseDto.class)).toList();
+		}
+		else {
+			employee.add(mapper.map(empRepo.findById(e.getId()).get(), EmployeeResponseDto.class));
+		}
 		
 		
-		
-		return empRepo.findAll().stream().map( e -> mapper.map(e, EmployeeResponseDto.class)).toList();
+		return employee;
 	}
 
 	@Override
@@ -55,6 +67,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 				          .status(HttpStatus.OK)
 				          .time(new Date())
 						  .build();
+	}
+
+	@Override
+	public EmployeeResponseDto getEmployeeById(Integer empId) {
+		Employee emp = empRepo.findById(empId).orElseThrow(() -> new EmployeeNotFoundException("Exployee not exist "));
+		return mapper.map(emp, EmployeeResponseDto.class);
 	}
 
 //	@Override
