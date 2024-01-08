@@ -6,10 +6,11 @@ import java.util.List;
 import com.todoApp.dto.ResponseDto;
 import com.todoApp.dto.TaskDto;
 import com.todoApp.dto.TaskResponseDto;
+import com.todoApp.entity.TaskStatus;
 
 public interface TaskService {
 	
-	public List<TaskResponseDto> getAllTask(Principal principal) throws Exception;
+	public List<TaskResponseDto> getAllCreatedTasks(Principal principal) throws Exception;
 	
 	public TaskResponseDto getTaskById(Principal principal , Integer taskId) throws Exception; 
 	
@@ -18,5 +19,7 @@ public interface TaskService {
 	public ResponseDto updateTask(Integer id , TaskDto task , Principal principal) throws Exception ;
 	
 	public ResponseDto deleteTask(Integer id);
+	
+	public List<TaskResponseDto> filteredTaskBasedonStatus(TaskStatus status , Principal principa);
 
 }

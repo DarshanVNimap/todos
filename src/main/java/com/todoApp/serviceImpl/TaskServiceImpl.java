@@ -16,6 +16,7 @@ import com.todoApp.dto.TaskDto;
 import com.todoApp.dto.TaskResponseDto;
 import com.todoApp.entity.Employee;
 import com.todoApp.entity.Task;
+import com.todoApp.entity.TaskStatus;
 import com.todoApp.exceptions.TaskNotFoundException;
 import com.todoApp.repository.TaskRepository;
 import com.todoApp.service.AppService;
@@ -34,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
 	private ModelMapper mapper;
 
 	@Override
-	public List<TaskResponseDto> getAllTask(Principal principal) throws Exception {
+	public List<TaskResponseDto> getAllCreatedTasks(Principal principal) throws Exception {
 		Employee employee = appService.getEmployee(principal);
 
 		List<Task> tasks = new ArrayList<>();
@@ -110,6 +111,14 @@ public class TaskServiceImpl implements TaskService {
 		}
 		
 		return mapper.map(task, TaskResponseDto.class);
+	}
+
+	@Override
+	public List<TaskResponseDto> filteredTaskBasedonStatus(TaskStatus status , Principal principal) {
+		
+		Employee employee = appService.getEmployee(principal);
+		
+		return null;
 	}
 
 }

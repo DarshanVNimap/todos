@@ -5,10 +5,13 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.todoApp.dto.EmployeeTaskMapperResponseDto;
+import com.todoApp.dto.IFilterTaskDto;
 import com.todoApp.dto.ResponseDto;
 import com.todoApp.dto.TaskAssignDto;
 import com.todoApp.entity.Employee;
@@ -42,19 +45,23 @@ public class EmployeeTaskMapperServiceImpl implements EmployeeTaskMapperService 
 	@Autowired
 	private TaskHistoryRepository taskHistoryRepo;
 
-	@Override
-	public List<EmployeeTaskMapper> getAllAssignedTask(Principal principal) {
+	@Autowired
+	private ModelMapper mapper;
 
-		return empTRepo.findByEmployee(appService.getEmployee(principal));
+	@Override
+	public List<EmployeeTaskMapperResponseDto> getAllAssignedTask(Principal principal) {
+
+		return empTRepo.findByEmployee(appService.getEmployee(principal)).stream()
+				.map(t -> mapper.map(t, EmployeeTaskMapperResponseDto.class)).toList();
 	}
 
 	@Override
-	public List<EmployeeTaskMapper> getAllEmpployeeAssignedTask(Integer taskId, Principal principal) {
+	public List<EmployeeTaskMapperResponseDto> getAllEmpployeeAssignedTask(Integer taskId, Principal principal) {
 
 		Task task = taskRepo.findByCreatedByAndId(appService.getEmployee(principal), taskId)
 				.orElseThrow(() -> new TaskNotFoundException("Task not exist!!"));
 
-		return empTRepo.findByTask(task);
+		return empTRepo.findByTask(task).stream().map(t -> mapper.map(t, EmployeeTaskMapperResponseDto.class)).toList();
 
 	}
 
@@ -128,6 +135,17 @@ public class EmployeeTaskMapperServiceImpl implements EmployeeTaskMapperService 
 
 		return ResponseDto.builder().message("task status updated!!").status(HttpStatus.OK).time(new Date()).build();
 
+	}
+
+	@Override
+	public List<IFilterTaskDto> filterAssignTask(TaskStatus status, LocalDate start_date,
+			LocalDate end_date, Principal principal) {
+		Employee emp = appService.getEmployee(principal);
+		
+		return empTRepo.filterAssignedTask((short)status.ordinal(), start_date, end_date, emp.getId())
+				;
+
+//		return null;
 	}
 
 }

@@ -30,10 +30,10 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 
-	@GetMapping
-	public ResponseEntity<?> getAllTask(Principal principal) {
+	@GetMapping("/created")
+	public ResponseEntity<?> getAllCreatedTasks(Principal principal) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllTask(principal));
+			return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllCreatedTasks(principal));
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -51,6 +51,7 @@ public class TaskController {
 	public ResponseEntity<?> getTaskById(@PathVariable Integer id , Principal principal) throws Exception{
 		return ResponseEntity.status(HttpStatus.OK).body(taskService.getTaskById(principal, id));
 	}
+	
 	
 	@PostMapping
 	public ResponseEntity<?> addTask(@RequestBody @Valid TaskDto taskdto , Principal principal) {
