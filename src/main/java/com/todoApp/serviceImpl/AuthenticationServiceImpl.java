@@ -71,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	@Override
 	public TokenResponse login(LoginDto loginDto) throws UserPrincipalNotFoundException, AuthenticationException {
 		
-		System.out.println(loginDto.getEmail() +" "+loginDto.getPassword());
+//		System.out.println(loginDto.getEmail() +" "+loginDto.getPassword());
 		
 		authManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
@@ -82,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 											.orElseThrow(() -> new  UserPrincipalNotFoundException("Invalid username or password!!"));
 		
 		String jwtToken = jwtService.generateToken(new CustomeUserDetail(emp));
-		
+		System.err.println("db connection");
 		return TokenResponse.builder()
 							.jwtToken(jwtToken)
 							.userName(emp.getEmail())

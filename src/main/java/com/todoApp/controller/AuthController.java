@@ -23,11 +23,6 @@ public class AuthController {
 	@Autowired
 	private AuthenticationService authService;
 	
-//	@GetMapping
-//	public String home() {
-//		return "Hello";
-//	}
-	
 	@PostMapping("/register")
 	public ResponseEntity<TokenResponse> register(@RequestBody @Valid EmployeeDto empRequest) throws Exception{
 		return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(empRequest));

@@ -6,7 +6,6 @@ import java.util.List;
 import com.todoApp.dto.ResponseDto;
 import com.todoApp.dto.TaskDto;
 import com.todoApp.dto.TaskResponseDto;
-import com.todoApp.entity.TaskStatus;
 
 public interface TaskService {
 	
@@ -20,6 +19,6 @@ public interface TaskService {
 	
 	public ResponseDto deleteTask(Integer id);
 	
-	public List<TaskResponseDto> filteredTaskBasedonStatus(TaskStatus status , Principal principa);
+//	public List<TaskResponseDto> filteredTaskBasedonStatus(TaskStatus status , Principal principa);
 
 }

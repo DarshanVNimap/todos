@@ -12,10 +12,12 @@ import com.todoApp.dto.IFilterTaskDto;
 import com.todoApp.entity.Employee;
 import com.todoApp.entity.EmployeeTaskMapper;
 import com.todoApp.entity.Task;
+import com.todoApp.entity.TaskStatus;
 
 public interface EmployeeTaskMapperRepository extends JpaRepository<EmployeeTaskMapper, Integer>{
 	
-	public List<EmployeeTaskMapper> findByEmployee(Employee employee);
+	List<EmployeeTaskMapper> findByEmployeeAndStatusNot(Employee employee, TaskStatus status);
+
 	
 	public List<EmployeeTaskMapper> findByTask(Task task);
 	

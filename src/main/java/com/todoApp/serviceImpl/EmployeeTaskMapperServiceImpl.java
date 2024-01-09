@@ -51,7 +51,7 @@ public class EmployeeTaskMapperServiceImpl implements EmployeeTaskMapperService 
 	@Override
 	public List<EmployeeTaskMapperResponseDto> getAllAssignedTask(Principal principal) {
 
-		return empTRepo.findByEmployee(appService.getEmployee(principal)).stream()
+		return empTRepo.findByEmployeeAndStatusNot(appService.getEmployee(principal) , TaskStatus.DONE).stream()
 				.map(t -> mapper.map(t, EmployeeTaskMapperResponseDto.class)).toList();
 	}
 

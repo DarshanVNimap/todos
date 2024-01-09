@@ -20,4 +20,11 @@ public class EmployeeResponseDto {
 	private List<EmployeeTaskMapperResponseDto> assignedTo;
 	private Date registerAt;
 	
+	
+//	@Override
+//	public String toString() {
+//		return "EmployeeResponseDto [name=" + name + ", email=" + email + ", createdTasks=" + createdTasks
+//				+ ", assignedTo=" + assignedTo + ", registerAt=" + registerAt + "]";
+//	}
+	
 }
