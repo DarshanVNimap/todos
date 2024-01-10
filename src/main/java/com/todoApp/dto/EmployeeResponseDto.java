@@ -1,5 +1,6 @@
 package com.todoApp.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EmployeeResponseDto {
+public class EmployeeResponseDto implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5611675304393293857L;
 	
 	private String name;
 	private String email;

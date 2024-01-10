@@ -3,7 +3,7 @@ package com.todoApp.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.todoApp.entity.EmployeeTaskMapper;
+import org.springframework.data.redis.core.RedisHash;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@RedisHash("TaskResponseDto")
 public class TaskResponseDto {
 	
 	private String title;

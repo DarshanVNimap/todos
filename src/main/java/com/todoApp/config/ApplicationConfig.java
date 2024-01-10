@@ -26,6 +26,28 @@ public class ApplicationConfig {
 		config.setPort(6379);
 		return new JedisConnectionFactory(config);
 	}
+	
+//	@Bean
+//	public RedisTemplate<String, Object> redisTemplate(){
+//		
+//		RedisTemplate<String , Object> template = new RedisTemplate<>();
+//		
+//		template.setConnectionFactory(connectionFactory());
+//		template.setKeySerializer(new StringRedisSerializer());
+//		template.setHashKeySerializer(new StringRedisSerializer());
+//		template.setHashKeySerializer(new JdkSerializationRedisSerializer());
+//		template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+//		template.setEnableTransactionSupport(true);
+//		template.afterPropertiesSet();
+//		
+//		return template;
+//		
+//	}
+//	
+//	@Bean
+//	CacheManager cacheManager() {
+//		return new ConcurrentMapCacheManager("todos");
+//	}
 
 	@Bean
 	RedisCacheConfiguration cacheConfiguration() {

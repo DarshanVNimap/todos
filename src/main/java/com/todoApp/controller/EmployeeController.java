@@ -3,6 +3,7 @@ package com.todoApp.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +26,7 @@ public class EmployeeController {
 	private EmployeeService empService;
 
 	@GetMapping()
-//	@Cacheable(value = "task")
+//	@Cacheable(value = "List<EmployeeResponseDto>" , key = "#principal.name")
 	public ResponseEntity<?> getAllEmployee(Principal principal){
 		return ResponseEntity.ok(empService.getAllEmployee(principal));
 	}
@@ -38,6 +39,7 @@ public class EmployeeController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('EMPLOYEE::DELETE')")
+	@CacheEvict(value = "todos")
 	public ResponseEntity<?> removeEmployee(@PathVariable Integer empId){
 		return ResponseEntity.ok(empService.removeEmployee(empId));
 	}
