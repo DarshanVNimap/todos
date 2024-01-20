@@ -14,5 +14,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 
 	public Optional<Task> findByCreatedByAndId(Employee employee , Integer id);
 	
+//	@Query(value = "UPDATE from task set status = ?1 WHERE end_at < date && status != ?2" , nativeQuery = true)
+//	public void updateStatusEndAtBeforeAndStatusNot(LocalDate date , short status);
+	
 
 }

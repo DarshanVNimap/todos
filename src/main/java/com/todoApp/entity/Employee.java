@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Employee {
 
 	@Id
@@ -48,5 +50,17 @@ public class Employee {
 	private List<EmployeeTaskMapper> assignedTo;
 
 	private Date registerAt;
+
+	@Override
+	public String toString() {
+		return "[id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+	}
+	
+	
+	
+
+	
+	
+	
 
 }

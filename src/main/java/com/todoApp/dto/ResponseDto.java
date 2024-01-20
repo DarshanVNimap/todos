@@ -19,7 +19,6 @@ public class ResponseDto
 	
 	private String message;
 	private HttpStatus status;
-//	@CurrentTimestamp(timing = GenerationTiming.ALWAYS)
 	private Date time;
 
 }

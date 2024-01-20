@@ -3,9 +3,11 @@ package com.todoApp.service;
 import java.security.Principal;
 import java.util.List;
 
+import javax.management.relation.RoleNotFoundException;
+
+import com.todoApp.dto.AdminEmployeeDto;
 import com.todoApp.dto.EmployeeResponseDto;
 import com.todoApp.dto.ResponseDto;
-import com.todoApp.entity.Employee;
 
 public interface EmployeeService {
 	
@@ -13,7 +15,7 @@ public interface EmployeeService {
 	
 	public EmployeeResponseDto getEmployeeById(Integer empId);
 	
-	public ResponseDto addEmployee(Employee employee);
+	public ResponseDto addEmployee(AdminEmployeeDto employeeDto) throws RoleNotFoundException, Exception;
 	
 	public ResponseDto removeEmployee(Integer employee);
 	

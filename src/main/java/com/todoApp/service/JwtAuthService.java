@@ -1,4 +1,4 @@
-package com.todoApp.jwtUtils;
+package com.todoApp.service;
 
 import java.security.Key;
 import java.util.Date;

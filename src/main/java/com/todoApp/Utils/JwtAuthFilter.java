@@ -1,4 +1,4 @@
-package com.todoApp.jwtUtils;
+package com.todoApp.Utils;
 
 import java.io.IOException;
 
@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+
+import com.todoApp.service.JwtAuthService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

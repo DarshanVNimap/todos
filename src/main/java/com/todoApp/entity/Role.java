@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -36,5 +37,12 @@ public class Role {
 	@OneToMany(cascade = CascadeType.ALL , mappedBy = "role")
 	@JsonManagedReference
 	private List<RolePermissionMapper> rolePermissionMapper;
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", role=" + role + "]";
+	}
+	
+	
 
 }

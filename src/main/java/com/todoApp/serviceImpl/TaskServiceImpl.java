@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.todoApp.Utils.ErrorMessageConstant;
+import com.todoApp.Utils.SuccessMessageConstant;
 import com.todoApp.dto.ResponseDto;
 import com.todoApp.dto.TaskDto;
 import com.todoApp.dto.TaskResponseDto;
@@ -32,6 +34,12 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+//	@Scheduled(fixedRate = 24*60*60*1000)
+//	public void changeStatusToOverdueTask() {
+//	 taskRepo.updateStatusEndAtBeforeAndStatusNot(LocalDate.now(), (short) 3 );
+//		
+//	}
 
 	@Override
 	public List<TaskResponseDto> getAllCreatedTasks(Principal principal) throws Exception {
@@ -43,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
 			tasks = taskRepo.findAll();
 		} else {
 			tasks = taskRepo.findByCreatedBy(employee)
-					.orElseThrow(() -> new TaskNotFoundException("You have not created any task!!"));
+					.orElseThrow(() -> new TaskNotFoundException(ErrorMessageConstant.TASK_NOT_FOUND));
 		}
 //        return tasks;
 		return tasks.stream().map(t -> mapper.map(t, TaskResponseDto.class)).toList();
@@ -53,9 +61,9 @@ public class TaskServiceImpl implements TaskService {
 	public ResponseDto addTask(TaskDto taskdto, Principal principal) throws Exception {
 
 		if (!taskdto.getStartAt().isBefore(taskdto.getEndAt())) {
-			throw new Exception("Start date should be before end date");
+			throw new Exception(ErrorMessageConstant.INVALID_END_DATE);
 		} else if (!taskdto.getStartAt().isAfter(LocalDate.now())) {
-			throw new Exception("Start date should be after today's date");
+			throw new Exception(ErrorMessageConstant.INVALID_START_DATE);
 		}
 
 		Employee employee = appService.getEmployee(principal);
@@ -64,9 +72,9 @@ public class TaskServiceImpl implements TaskService {
 
 		task.setCreatedBy(employee);
 		if (taskRepo.save(task) == null) {
-			throw new Exception("Something went wrong!! task not added, try after sometime");
+			throw new Exception(ErrorMessageConstant.TASK_NOT_CREATED);
 		}
-		return ResponseDto.builder().message("Task created....").status(HttpStatus.CREATED).time(new Date()).build();
+		return ResponseDto.builder().message(SuccessMessageConstant.TASK_ADDED).status(HttpStatus.CREATED).time(new Date()).build();
 	}
 
 	@Override
@@ -79,20 +87,20 @@ public class TaskServiceImpl implements TaskService {
 		task.setCreatedBy(employee);
 		task.setId(id);
 		if (taskRepo.save(task) == null) {
-			throw new Exception("Something went wrong!! task not added, try after sometime");
+			throw new Exception(ErrorMessageConstant.TASK_NOT_UPDATED);
 		}
-		return ResponseDto.builder().message("Task updated....").status(HttpStatus.CREATED).time(new Date()).build();
+		return ResponseDto.builder().message(SuccessMessageConstant.TASK_UPDATED).status(HttpStatus.CREATED).time(new Date()).build();
 
 	}
 
 	@Override
 	public ResponseDto deleteTask(Integer id) {
 
-		taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+		taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(ErrorMessageConstant.TASK_NOT_FOUND));
 
 		taskRepo.deleteById(id);
 
-		return ResponseDto.builder().message("Task removed....").status(HttpStatus.OK).time(new Date()).build();
+		return ResponseDto.builder().message(SuccessMessageConstant.TASK_DELETED).status(HttpStatus.OK).time(new Date()).build();
 	}
 
 	@Override
@@ -103,10 +111,10 @@ public class TaskServiceImpl implements TaskService {
 		Task task = new Task();
 		
 		if (employee.getRole().getRole().equals("ADMIN")) {
-			task = taskRepo.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found with id: "+taskId));
+			task = taskRepo.findById(taskId).orElseThrow(() -> new TaskNotFoundException(ErrorMessageConstant.TASK_NOT_FOUND));
 		} else {
 			task = taskRepo.findByCreatedByAndId(employee , taskId)
-					.orElseThrow(() ->new TaskNotFoundException("Task not found with id: "+taskId));
+					.orElseThrow(() ->new TaskNotFoundException(ErrorMessageConstant.TASK_NOT_FOUND));
 		}
 		
 		return mapper.map(task, TaskResponseDto.class);

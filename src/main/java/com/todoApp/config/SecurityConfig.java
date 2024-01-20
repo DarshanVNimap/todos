@@ -14,10 +14,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import com.todoApp.jwtUtils.JwtAuthFilter;
+import com.todoApp.Utils.JwtAuthFilter;
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -32,6 +33,9 @@ public class SecurityConfig {
 	@Autowired
 	@Qualifier("handlerExceptionResolver")
 	private HandlerExceptionResolver exceptionResolver;
+	
+	@Autowired
+	private AuthenticationSuccessHandler successHandler;
 
 	@Bean
 	UserDetailsService userDetails() {
@@ -67,11 +71,17 @@ public class SecurityConfig {
 	SecurityFilterChain secutiryFilterChain(HttpSecurity http) throws Exception {
 
 		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(request -> request.requestMatchers("/swagger-ui/**","v3/api-docs/**" ,"/api/auth/**").permitAll()
+				.authorizeHttpRequests(request -> request.requestMatchers("/oauth/**" , "/swagger-ui/**","v3/api-docs/**" ,"/api/auth/**").permitAll()
 				.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(daoAuthenticationProvider())
-				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.oauth2Login( login -> login.loginPage("/api/login").successHandler(successHandler))
+//				.oauth2ResourceServer(oauth2 -> oauth2
+//		                .jwt(jwt -> jwt
+//		                    .jwtAuthenticationConverter(jwtAuthenticationConverter())
+//		                    .jwkSetUri("https://idp.example.com/.well-known/jwks.json")
+//		                )
 		;
 
 		return http.build();

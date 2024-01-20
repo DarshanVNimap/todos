@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +31,7 @@ public class TaskController {
 	private TaskService taskService;
 
 	@GetMapping("/created")
-	@Cacheable(value = "TaskResponseDto")
+//	@Cacheable(value = "TaskResponseDto")
 	public ResponseEntity<?> getAllCreatedTasks(Principal principal) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllCreatedTasks(principal));

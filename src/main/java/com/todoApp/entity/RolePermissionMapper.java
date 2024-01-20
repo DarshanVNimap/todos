@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -34,5 +35,12 @@ public class RolePermissionMapper {
 	@ManyToOne(cascade = CascadeType.MERGE,fetch =FetchType.EAGER)
 	@JsonBackReference
 	private Permission permission;
+
+	@Override
+	public String toString() {
+		return "RolePermissionMapper [id=" + id + ", permission=" + permission.getAction() + "]";
+	}
+	
+	
 
 }
